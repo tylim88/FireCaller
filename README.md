@@ -44,7 +44,13 @@
 
 🔥 Helper Function to use together with [FireCall](https://github.com/tylim88/FireCall)
 
-(Will still works without FireCall but what is the point?)
+This library doesn't do anything on its own, it doesn't validate or handle error like FireCall.
+
+It simply wraps around Firebase callable functions to provide new interface.
+
+Do not use this library if you are not using FireCall.
+
+FireCaller is library for Web, FireCall is for Nodejs.
 
 ## Related Projects
 
@@ -58,7 +64,7 @@ FirelordJS is completed, the rest are still under development.
 ## Installation
 
 ```bash
-npm install firecaller zod firebase
+npm i firecaller firebase zod
 ```
 
 and of course you need `typescript`.
