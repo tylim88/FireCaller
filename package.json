@@ -1,7 +1,7 @@
 {
 	"name": "firecaller",
-	"version": "0.1.0",
-	"description": "🔥 Twin library of FireCall.",
+	"version": "0.1.1",
+	"description": "🔥 Twin library of FireCall, type-safe response and request, standardize error handling",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",

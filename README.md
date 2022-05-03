@@ -125,7 +125,7 @@ export const getUser = callable(getUserSchema)
 
 ## Calling
 
-**FireCaller never throw**, all error is catch and return as object <-- we choose this pattern because it is impossible to type-safe rejected promise.
+**FireCaller never throw**, all error is caught and return as object. We choose this pattern because it is impossible to type-safe rejected promise.
 
 By checking the value of the `code`, you know how to deal with them
 
@@ -133,7 +133,7 @@ if the `code` value is:
 
 `ok`: you can use the `data` value
 
-`NON_FUNCTION_ERROR`: basically the source is not by FireCall in Nodejs and is unexpected, you can check the `err`, but the type is completely unknown.
+`NON_FUNCTION_ERROR`: basically the source is not by FireCall in Nodejs and is unexpected, you can check the `err`, but the type is completely unknown. Handle it with your generic error handling.
 
 `'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated'`: the error source is FireCall in NodeJS, you can check the `message`.
 
