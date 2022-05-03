@@ -44,9 +44,9 @@
 
 🔥 Helper Function to use together with [FireCall](https://github.com/tylim88/FireCall)
 
-This library doesn't do anything on its own, it doesn't validate or handle error like FireCall.
+This library doesn't validate or handle error like FireCall.
 
-It simply wraps around Firebase callable functions to provide new interface.
+It wraps around Firebase callable functions to provide type safety for you request data and response data with [zod](https://www.npmjs.com/package/zod).
 
 Do not use this library if you are not using FireCall.
 
