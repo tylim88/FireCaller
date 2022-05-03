@@ -64,12 +64,23 @@ export const callableCreator =
 					code: 'NON_FUNCTION_ERROR'
 					err: unknown
 			  }
+			| { code: 'OUT_OF_SYNC_SCHEMA'; message: string }
 		> =>
 			httpsCallable<z.infer<T['req']>, z.infer<T['res']>>(
 				functions || getFunctions(),
 				schema.name
 			)(data)
 				.then(result => {
+					const { data } = result
+					try {
+						schema.res.parse(data)
+					} catch (e) {
+						return {
+							code: 'OUT_OF_SYNC_SCHEMA' as const,
+							message: 'please sync your schema',
+						}
+					}
+
 					return { code: 'ok' as const, data: result.data }
 				})
 				.catch(err => {

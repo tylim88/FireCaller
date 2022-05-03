@@ -131,11 +131,12 @@ By checking the value of the `code`, you know how to deal with them
 
 if the `code` value is:
 
-`ok`: you can use the `data` value
-
-`NON_FUNCTION_ERROR`: basically the source is not by FireCall in Nodejs and is unexpected, you can check the `err`, but the type is completely unknown. Handle it with your generic error handling.
-
-`'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated'`: the error source is FireCall in NodeJS, you can check the `message`.
+| code                                                                                                                                                                                                                                                                    | meaning                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ok                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                                                                                                                            |
+| NON_FUNCTION_ERROR                                                                                                                                                                                                                                                      | FireCall in Nodejs did not cause this error, this is something totally unexpected, you can access the `err` object, but the type is completely unknown. Handle it with your generic error handling. |
+| OUT_OF_SYNC_SCHEMA                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message`                                                                                                             |
+| 'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                                                                                                                               |
 
 ```ts
 import { updateUser, getUser } from './someOtherFile'
@@ -151,12 +152,19 @@ updateUser(
 		const data = res.data // data = undefined, data type depends on schema.res
 	} else if (code === 'NON_FUNCTION_ERROR') {
 		const { err } = res
+	} else if (code === 'OUT_OF_SYNC_SCHEMA') {
+		// since this error also has message prop, you can combine this case with the `else` case
+		const { message } = res
 	} else {
 		const { message } = res
 		// message is string
 	}
 })
+```
 
+Or handle all the errors generically
+
+```ts
 getUser(
 	// input type depend on schema.req
 	userId // string
@@ -164,10 +172,9 @@ getUser(
 	const { code } = res
 	if (code === 'ok') {
 		const { name, age } = res.data // data = { name, age }, data type depends on schema.res
-	} else if (code === 'NON_FUNCTION_ERROR') {
-		const { err } = res
 	} else {
-		const { code, message } = res
+		alert('error, help!')
+		// handle errors generically
 	}
 })
 ```
