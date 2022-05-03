@@ -44,13 +44,17 @@
 
 🔥 Helper Function to use together with [FireCall](https://github.com/tylim88/FireCall)
 
-This library doesn't validate or handle error like FireCall.
+This library doesn't validate FireCall, but does **handle error from FireCall**.
 
 It wraps around Firebase callable functions to provide type safety for you request data and response data with [zod](https://www.npmjs.com/package/zod).
 
 Do not use this library if you are not using FireCall.
 
 FireCaller is library for Web, FireCall is for Nodejs.
+
+## Why Do You Need This? What Is The Problem FireCall Trying To Solve?
+
+Read [Here](https://github.com/tylim88/FireCall#why-do-you-need-this-what-is-the-problem-firecall-trying-to-solve)
 
 ## Related Projects
 
@@ -121,6 +125,18 @@ export const getUser = callable(getUserSchema)
 
 ## Calling
 
+**FireCaller never throw**, all error is catch and return as object <-- we choose this pattern because it is impossible to type-safe rejected promise.
+
+By checking the value of the `code`, you know how to deal with them
+
+if the `code` value is:
+
+`ok`: you can use the `data` value
+
+`NON_FUNCTION_ERROR`: basically the source is not by FireCall in Nodejs and is unexpected, you can check the `err`, but the type is completely unknown.
+
+`'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated'`: the error source is FireCall in NodeJS, you can check the `message`.
+
 ```ts
 import { updateUser, getUser } from './someOtherFile'
 
@@ -130,13 +146,28 @@ updateUser(
 	// input type depends on schema.req
 	{ name, age, address } // { name: string, age: number, address: string }
 ).then(res => {
-	const data = res.data // data = undefined, data type depends on schema.res
+	const { code } = res
+	if (code === 'ok') {
+		const data = res.data // data = undefined, data type depends on schema.res
+	} else if (code === 'NON_FUNCTION_ERROR') {
+		const { err } = res
+	} else {
+		const { message } = res
+		// message is string
+	}
 })
 
 getUser(
 	// input type depend on schema.req
 	userId // string
 ).then(res => {
-	const { name, age } = res.data // data = { name, age }, data type depends on schema.res
+	const { code } = res
+	if (code === 'ok') {
+		const { name, age } = res.data // data = { name, age }, data type depends on schema.res
+	} else if (code === 'NON_FUNCTION_ERROR') {
+		const { err } = res
+	} else {
+		const { code, message } = res
+	}
 })
 ```
