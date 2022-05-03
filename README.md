@@ -44,13 +44,13 @@
 
 🔥 Helper Function to use together with [FireCall](https://github.com/tylim88/FireCall)
 
-This library doesn't validate FireCall, but does **handle error from FireCall**.
+FireCaller validate response and handle error from FireCall.
 
 It wraps around Firebase callable functions to provide type safety for you request data and response data with [zod](https://www.npmjs.com/package/zod).
 
 Do not use this library if you are not using FireCall.
 
-FireCaller is library for Web, FireCall is for Nodejs.
+FireCaller is a library for Web, FireCall is for Nodejs.
 
 ## Why Do You Need This? What Is The Problem FireCall Trying To Solve?
 
@@ -76,6 +76,8 @@ and of course you need `typescript`.
 ## Create Schema With Zod
 
 Normally this file is created on backend and share to frontend.
+
+Tips: You can also use these schemas to validate your form, learn more at [zod](https://github.com/colinhacks/zod)!
 
 ```ts
 import { z } from 'zod'
