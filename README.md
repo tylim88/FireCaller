@@ -39,12 +39,14 @@
 				src="https://img.shields.io/badge/gzipped-0.3KB-brightgreen"
 				alt="package size"
 			/>
+			<br/>
+			<br/>
+			<p>🔥 Write callable functions systematically like a Firelord. No more chaotic error handling, no more unsafe endpoint data type, no more messy validation. Be the Master of Fire you always wanted to be.</p>
 </div>
 <br/>
+<br/>
 
-🔥 Helper Function to use together with [FireCall](https://github.com/tylim88/FireCall)
-
-FireCaller validate response and handle error from FireCall.
+FireCaller validate response and handle error from [FireCall](https://github.com/tylim88/FireCall).
 
 It wraps around Firebase callable functions to provide type safety for you request data and response data with [zod](https://www.npmjs.com/package/zod).
 

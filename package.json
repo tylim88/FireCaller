@@ -1,7 +1,7 @@
 {
 	"name": "firecaller",
-	"version": "0.1.3",
-	"description": "🔥 Twin library of FireCall, type-safe response and request, standardize error handling",
+	"version": "0.1.4",
+	"description": "🔥Write callable functions systematically like a Firelord. No more chaotic error handling, no more unsafe endpoint data type, no more messy validation. Be the Master of Fire you always wanted to be.",
 	"source": "src/index.ts",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
