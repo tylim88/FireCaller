@@ -36,7 +36,7 @@ const errCode = [
 	'unavailable',
 	'data-loss',
 	'unauthenticated',
-]
+] as const
 
 export const callableCreator =
 	(functions?: Functions) =>
@@ -93,7 +93,10 @@ export const callableCreator =
 						return { code: 'NON_FUNCTION_ERROR' as const, err }
 					}
 
-					if (errCode.includes(code) && typeof message === 'string') {
+					if (
+						errCode.includes(code as ErrorCode) &&
+						typeof message === 'string'
+					) {
 						return { code: code as ErrorCode, message }
 					} else {
 						return { code: 'NON_FUNCTION_ERROR' as const, err }
