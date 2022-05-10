@@ -4,7 +4,7 @@
 
 <div align="center">
 		<img src="https://raw.githubusercontent.com/tylim88/Firelord/main/img/ozai.png" width="200px"/>
-		<h1>FireCaller 烈火呼(Beta)</h1>
+		<h1>FireCaller 烈火呼</h1>
 </div>
 
 <div align="center">
@@ -36,10 +36,10 @@
 			</a>
 			&nbsp;
 			<img
-				src="https://img.shields.io/badge/gzipped-0.3KB-brightgreen"
+				src="https://img.shields.io/badge/gzipped-1KB-brightgreen"
 				alt="package size"
 			/>
-						&nbsp;
+			&nbsp;
 			<a href="https://github.com/tylim88/FireCaller/actions" target="_blank">
 				<img
 					src="https://github.com/tylim88/FireCaller/workflows/Main/badge.svg"
