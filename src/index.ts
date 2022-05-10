@@ -43,6 +43,15 @@ const errCode = [
 	'functions/unauthenticated',
 ] as const
 
+/**
+ *
+ * @param schema object that contains request data and response data zod schema, and the function name
+ * @param schema.req request data zod schema
+ * @param schema.res response data zod schema
+ * @param schema.name name of the function
+ * @param func optional, insert firebase function builder here.
+ * @returns
+ */
 export const callable = <
 	T extends {
 		req: ZodType<unknown, ZodTypeDef, unknown>
@@ -53,6 +62,13 @@ export const callable = <
 	schema: T,
 	func?: Functions
 ) => {
+	/**
+	 *
+	 * @param data data type is what you define in schema.req
+	 * @param options optional, HttpsCallableOptions
+	 * @param options.timeout optional, Time in milliseconds after which to cancel if there is no response. Default is 70000.
+	 * @returns
+	 */
 	const callable = (
 		data: z.infer<T['req']>,
 		options?: HttpsCallableOptions
