@@ -11,6 +11,7 @@
 /.husky
 /scripts
 /src
+/functions
 
 # ignore file
 .gitignore
@@ -27,6 +28,7 @@ jest.config.doc.js
 tsconfig.doc.json
 lgtm.yml
 tsconfig.prod.json
+.parcelrc
 
 # types
 /types/**/*
@@ -43,3 +45,4 @@ firebase.json
 .eslintignore
 .firebaserc
 note.txt
+firebase.json
