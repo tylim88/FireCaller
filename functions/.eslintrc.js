@@ -10,7 +10,6 @@ module.exports = {
 		'plugin:import/warnings',
 		'plugin:import/typescript',
 		'plugin:@typescript-eslint/recommended',
-		'google',
 		'plugin:prettier/recommended',
 	],
 	parser: '@typescript-eslint/parser',
