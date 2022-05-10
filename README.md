@@ -173,18 +173,15 @@ export const getUser = callable(getUserSchema) // or callable(getUserSchema, fun
 
 ## Calling
 
-**FireCaller never throw**, all error is caught and return as object. We choose this pattern because it is impossible to type-safe rejected promise.
+**FireCaller never throw**, all errors are caught and returned as object. We choose this pattern because it is impossible to type-safe rejected promise.
 
-By checking the value of the `code`, you know how to deal with them
+By checking the value of the `code`, you know how to deal with them:
 
-if the `code` value is:
-
-| code                                                                                                                                                                                                                                                                                                                                                                                                                                    | meaning                                                                                                                                                                                                                                                                       |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ok                                                                                                                                                                                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                                                                                                                                                                                                      |
-| generic                                                                                                                                                                                                                                                                                                                                                                                                                                 | FireCall in Nodejs did not cause this error, this is something totally unexpected, you can access the `message` and `err` object, but the type is completely unknown. Handle it with your generic error handling. This kind of error is extremely rare and should not happen. |
-| schema-out-of-sync                                                                                                                                                                                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message`                                                                                                                                                                                       |
-| 'functions/cancelled', 'functions/unknown', 'functions/invalid-argument', 'functions/deadline-exceeded', 'functions/not-found', 'functions/already-exists', 'functions/permission-denied', 'functions/resource-exhausted', 'functions/failed-precondition', 'functions/aborted', 'functions/out-of-range', 'functions/unimplemented', 'functions/internal', 'functions/unavailable', 'functions/data-loss', 'functions/unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                                                                                                                                                                                                         |
+| code                                                                                                                                                                                                                                                                                                                                                                                                                                    | meaning                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| ok                                                                                                                                                                                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                |
+| schema-out-of-sync                                                                                                                                                                                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message` |
+| 'functions/cancelled', 'functions/unknown', 'functions/invalid-argument', 'functions/deadline-exceeded', 'functions/not-found', 'functions/already-exists', 'functions/permission-denied', 'functions/resource-exhausted', 'functions/failed-precondition', 'functions/aborted', 'functions/out-of-range', 'functions/unimplemented', 'functions/internal', 'functions/unavailable', 'functions/data-loss', 'functions/unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                   |
 
 ```ts
 import { updateUser, getUser } from './someOtherFile'
@@ -197,33 +194,10 @@ updateUser(
 ).then(res => {
 	const { code } = res
 	if (code === 'ok') {
-		const data = res.data // data = undefined, data type depends on schema.res
-	} else if (code === 'generic') {
-		const { message, err } = res
-	} else if (code === 'schema-out-of-sync') {
-		// since this error also has message prop, you can combine this case with the `else` case
-		const { message } = res
+		const data = res.data // data type depends on what you define in schema.res
 	} else {
-		const { message } = res
+		const { code, message } = res
 		// message is string
-	}
-})
-```
-
-Or handle all the errors generically because all errors have `message` and `code` props.
-
-```ts
-getUser(
-	// input type depend on schema.req
-	userId // string
-).then(res => {
-	const { code } = res
-	if (code === 'ok') {
-		const { name, age } = res.data // data = { name, age }, data type depends on schema.res
-	} else {
-		alert('error, help!')
-		const { message, code } = res // all errors have `message` and `code` props
-		// handle errors generically
 	}
 })
 ```
