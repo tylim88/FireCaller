@@ -24,25 +24,6 @@ type ErrorCode = `functions/${
 	| 'data-loss'
 	| 'unauthenticated'}`
 
-const errCode = [
-	'functions/cancelled',
-	'functions/unknown',
-	'functions/invalid-argument',
-	'functions/deadline-exceeded',
-	'functions/not-found',
-	'functions/already-exists',
-	'functions/permission-denied',
-	'functions/resource-exhausted',
-	'functions/failed-precondition',
-	'functions/aborted',
-	'functions/out-of-range',
-	'functions/unimplemented',
-	'functions/internal',
-	'functions/unavailable',
-	'functions/data-loss',
-	'functions/unauthenticated',
-] as const
-
 /**
  *
  * @param schema object that contains request data and response data zod schema, and the function name
@@ -81,11 +62,6 @@ export const callable = <
 				code: ErrorCode
 				message: string
 		  }
-		| {
-				code: 'generic'
-				message: 'generic'
-				err: unknown
-		  }
 		| { code: 'schema-out-of-sync'; message: string }
 	> => {
 		return httpsCallable<z.infer<T['req']>, z.infer<T['res']>>(
@@ -107,17 +83,9 @@ export const callable = <
 				return { code: 'ok' as const, data: result.data }
 			})
 			.catch(err => {
-				try {
-					if (errCode.includes(err.code)) {
-						return {
-							code: err.code as ErrorCode,
-							message: err.message as string,
-						}
-					} else {
-						throw 'something is wrong'
-					}
-				} catch (e) {
-					return { code: 'generic', message: 'generic', err: e } // is it even possible to test this?
+				return {
+					code: err.code as ErrorCode,
+					message: err.message as string,
 				}
 			})
 	}
