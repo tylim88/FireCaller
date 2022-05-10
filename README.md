@@ -179,12 +179,12 @@ By checking the value of the `code`, you know how to deal with them
 
 if the `code` value is:
 
-| code                                                                                                                                                                                                                                                                    | meaning                                                                                                                                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ok                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                                                                                                                                                        |
-| generic                                                                                                                                                                                                                                                                 | FireCall in Nodejs did not cause this error, this is something totally unexpected, you can access the `err` object, but the type is completely unknown. Handle it with your generic error handling. This kind of error is rare. |
-| schema-out-of-sync                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message`                                                                                                                                         |
-| 'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                                                                                                                                                           |
+| code                                                                                                                                                                                                                                                                    | meaning                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ok                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                                                                                                                                                                                            |
+| generic                                                                                                                                                                                                                                                                 | FireCall in Nodejs did not cause this error, this is something totally unexpected, you can access the `message` and `err` object, but the type is completely unknown. Handle it with your generic error handling. This kind of error is rare and should not happen. |
+| schema-out-of-sync                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message`                                                                                                                                                                             |
+| 'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                                                                                                                                                                                               |
 
 ```ts
 import { updateUser, getUser } from './someOtherFile'
@@ -199,7 +199,7 @@ updateUser(
 	if (code === 'ok') {
 		const data = res.data // data = undefined, data type depends on schema.res
 	} else if (code === 'generic') {
-		const { err } = res
+		const { message, err } = res
 	} else if (code === 'schema-out-of-sync') {
 		// since this error also has message prop, you can combine this case with the `else` case
 		const { message } = res
@@ -210,7 +210,7 @@ updateUser(
 })
 ```
 
-Or handle all the errors generically
+Or handle all the errors generically because all errors have `message` and `code` props.
 
 ```ts
 getUser(
@@ -222,6 +222,7 @@ getUser(
 		const { name, age } = res.data // data = { name, age }, data type depends on schema.res
 	} else {
 		alert('error, help!')
+		const { message, code } = res // all errors have `message` and `code` props
 		// handle errors generically
 	}
 })

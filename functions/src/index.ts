@@ -11,6 +11,10 @@ export const test = onCall(schema, { route: 'public' }, data => {
 	return { code: 'ok', data }
 }).onCall
 
+export const error = onCall(schema, { route: 'public' }, data => {
+	throw { cd: '???', msg: '???' }
+}).onCall
+
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //

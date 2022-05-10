@@ -49,4 +49,20 @@ describe('test callable', () => {
 		// @ts-expect-error
 		expect(result.message).toEqual('please sync your schema')
 	})
+
+	it('unknown', async () => {
+		const schema = {
+			req: z.string(),
+			res: z.string(),
+			name: 'error',
+		}
+		const callable_ = callable(schema, functions)
+
+		const result = await callable_('123')
+		console.log({ result })
+
+		expect(result.code).toBe('functions/unknown')
+		// @ts-expect-error
+		expect(result.message).toEqual('unknown')
+	})
 })

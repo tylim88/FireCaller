@@ -14,13 +14,8 @@ jobs:
       - run: npm i
       - run: npm run lint --fix
       - run: npm run pretty-quick
-        # - run: npm test
-        # env:
-        #   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      - run: npm run build
-        # - run: npm run link
-        # - run: npm run b-tsc
-        # - run: npm run b-test
+      - run: npm test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      - run: npm run build
       - uses: codecov/codecov-action@v2

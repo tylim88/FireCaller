@@ -67,6 +67,7 @@ export const callable = <
 		  }
 		| {
 				code: 'generic'
+				message: 'generic'
 				err: unknown
 		  }
 		| { code: 'schema-out-of-sync'; message: string }
@@ -91,9 +92,16 @@ export const callable = <
 			})
 			.catch(err => {
 				try {
-					return { code: err.code as ErrorCode, message: err.message }
+					if (errCode.includes(err.code)) {
+						return {
+							code: err.code as ErrorCode,
+							message: err.message as string,
+						}
+					} else {
+						throw 'something is wrong'
+					}
 				} catch (e) {
-					return { code: 'generic' as const, err: e } // is it even possible to test this?
+					return { code: 'generic', message: 'generic', err: e } // is it even possible to test this?
 				}
 			})
 	}
