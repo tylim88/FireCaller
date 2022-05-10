@@ -16,6 +16,7 @@ jobs:
       - run: npm run pretty-quick
       - run: npm i -g firebase-tools
       - run: npm run f-build
+      - run: npm run f-reinstall
       - run: npm test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}

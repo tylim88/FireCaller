@@ -1,6 +1,7 @@
 {
 	"name": "functions",
 	"scripts": {
+		"reinstall": "rm -rf node_modules && rm -rf package-lock.json && npm i",
 		"lint": "eslint --ext .js,.ts .",
 		"build": "rm -rf lib && tsc",
 		"serve": "npm run build && firebase emulators:start --only functions",
