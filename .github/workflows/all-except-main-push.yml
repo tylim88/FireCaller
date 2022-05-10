@@ -11,17 +11,15 @@ jobs:
           node-version: '16.14'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
-      # - run: npm i -g firebase-tools
       - run: npm i
       - run: npm run lint --fix
       - run: npm run pretty-quick
-        # - run: npm test
-        # env:
-        #   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-      - run: npm run build
-        # - run: npm run link
-        # - run: npm run b-tsc
-        # - run: npm run b-test
+      - run: npm i -g firebase-tools
+      - run: npm run f-reinstall
+      - run: npm run f-build
+      - run: npm test
         env:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - run: npm run build
       - uses: codecov/codecov-action@v2

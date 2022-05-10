@@ -4,7 +4,7 @@
 
 <div align="center">
 		<img src="https://raw.githubusercontent.com/tylim88/Firelord/main/img/ozai.png" width="200px"/>
-		<h1>FireCaller 烈火呼(Beta)</h1>
+		<h1>FireCaller 烈火呼</h1>
 </div>
 
 <div align="center">
@@ -36,9 +36,57 @@
 			</a>
 			&nbsp;
 			<img
-				src="https://img.shields.io/badge/gzipped-0.3KB-brightgreen"
+				src="https://img.shields.io/badge/gzipped-1KB-brightgreen"
 				alt="package size"
 			/>
+			&nbsp;
+			<a href="https://github.com/tylim88/FireCaller/actions" target="_blank">
+				<img
+					src="https://github.com/tylim88/FireCaller/workflows/Main/badge.svg"
+					alt="github action"
+				/>
+			</a>
+			&nbsp;
+			<a href="https://codecov.io/gh/tylim88/FireCaller" target="_blank">
+				<img
+					src="https://codecov.io/gh/tylim88/FireCaller/branch/main/graph/badge.svg"
+					alt="code coverage"
+				/>
+			</a>
+			&nbsp;
+			<a href="https://github.com/tylim88/FireCaller/issues" target="_blank">
+				<img
+					alt="GitHub issues"
+					src="https://img.shields.io/github/issues-raw/tylim88/FireCaller"
+				></img>
+			</a>
+			&nbsp;
+			<a href="https://snyk.io/test/github/tylim88/FireCaller" target="_blank">
+				<img
+					src="https://snyk.io/test/github/tylim88/FireCaller/badge.svg"
+					alt="code coverage"
+				/>
+			</a>
+			&nbsp;
+			<a
+				href="https://lgtm.com/projects/g/tylim88/FireCaller/alerts/"
+				target="_blank"
+			>
+				<img
+					alt="Total alerts"
+					src="https://img.shields.io/lgtm/alerts/g/tylim88/FireCaller.svg?logo=lgtm&logoWidth=18"
+				/>
+			</a>
+			&nbsp;
+			<a
+				href="https://lgtm.com/projects/g/tylim88/FireCaller/context:javascript"
+				target="_blank"
+			>
+				<img
+					alt="Language grade: JavaScript"
+					src="https://img.shields.io/lgtm/grade/javascript/g/tylim88/FireCaller.svg?logo=lgtm&logoWidth=18"
+				/>
+			</a>
 			<br/>
 			<br/>
 			<p>🔥 Write callable functions systematically like a Firelord. No more chaotic error handling, no more unsafe endpoint data type, no more messy validation. Be the Master of Fire you always wanted to be.</p>
@@ -54,6 +102,8 @@ Do not use this library if you are not using FireCall.
 
 FireCaller is a library for Web, FireCall is for Nodejs.
 
+Usable with [Emulator](#usage-with-emulator)
+
 ## Why Do You Need This? What Is The Problem FireCall Trying To Solve?
 
 Read [Here](https://github.com/tylim88/FireCall#why-do-you-need-this-what-is-the-problem-firecall-trying-to-solve)
@@ -64,8 +114,6 @@ Read [Here](https://github.com/tylim88/FireCall#why-do-you-need-this-what-is-the
 2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
 3. [Firelordrn](https://github.com/tylim88/firelordrn) - Typescript wrapper for Firestore React Native
 4. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
-
-FirelordJS is completed, the rest are still under development.
 
 ## Installation
 
@@ -111,20 +159,16 @@ export const getUserSchema = {
 
 ```ts
 import { initializeApp } from 'firebase/app'
-import { callableCreator } from 'firecaller'
+import { callable } from 'firecaller'
 import { updateUserSchema, getUserSchema } from './someFile'
 
 export const app = initializeApp(yourConfig) // must initialize app before using firecaller
 
 const funRef = getFunctions(app)
 
-const callable = callableCreator(funRef)
-// OR
-const callable = callableCreator()
-
 // now create the specific callable
-export const updateUser = callable(updateUserSchema)
-export const getUser = callable(getUserSchema)
+export const updateUser = callable(updateUserSchema) // or callable(updateUserSchema, funRef)
+export const getUser = callable(getUserSchema) // or callable(getUserSchema, funRef)
 ```
 
 ## Calling
@@ -135,12 +179,12 @@ By checking the value of the `code`, you know how to deal with them
 
 if the `code` value is:
 
-| code                                                                                                                                                                                                                                                                    | meaning                                                                                                                                                                                             |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ok                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                                                                                                                            |
-| NON_FUNCTION_ERROR                                                                                                                                                                                                                                                      | FireCall in Nodejs did not cause this error, this is something totally unexpected, you can access the `err` object, but the type is completely unknown. Handle it with your generic error handling. |
-| OUT_OF_SYNC_SCHEMA                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message`                                                                                                             |
-| 'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                                                                                                                               |
+| code                                                                                                                                                                                                                                                                    | meaning                                                                                                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ok                                                                                                                                                                                                                                                                      | success, you can access the `data` value                                                                                                                                                                                                                            |
+| generic                                                                                                                                                                                                                                                                 | FireCall in Nodejs did not cause this error, this is something totally unexpected, you can access the `message` and `err` object, but the type is completely unknown. Handle it with your generic error handling. This kind of error is rare and should not happen. |
+| schema-out-of-sync                                                                                                                                                                                                                                                      | Incorrect response data shape, your schema is out of sync, you can access the `message`                                                                                                                                                                             |
+| 'cancelled', 'unknown', 'invalid-argument', 'deadline-exceeded', 'not-found', 'already-exists', 'permission-denied', 'resource-exhausted', 'failed-precondition', 'aborted', 'out-of-range', 'unimplemented', 'internal', 'unavailable', 'data-loss', 'unauthenticated' | the error source is FireCall in NodeJS, you can access the `message`.                                                                                                                                                                                               |
 
 ```ts
 import { updateUser, getUser } from './someOtherFile'
@@ -154,9 +198,9 @@ updateUser(
 	const { code } = res
 	if (code === 'ok') {
 		const data = res.data // data = undefined, data type depends on schema.res
-	} else if (code === 'NON_FUNCTION_ERROR') {
-		const { err } = res
-	} else if (code === 'OUT_OF_SYNC_SCHEMA') {
+	} else if (code === 'generic') {
+		const { message, err } = res
+	} else if (code === 'schema-out-of-sync') {
 		// since this error also has message prop, you can combine this case with the `else` case
 		const { message } = res
 	} else {
@@ -166,7 +210,7 @@ updateUser(
 })
 ```
 
-Or handle all the errors generically
+Or handle all the errors generically because all errors have `message` and `code` props.
 
 ```ts
 getUser(
@@ -178,7 +222,49 @@ getUser(
 		const { name, age } = res.data // data = { name, age }, data type depends on schema.res
 	} else {
 		alert('error, help!')
+		const { message, code } = res // all errors have `message` and `code` props
 		// handle errors generically
 	}
+})
+```
+
+## Usage With Emulator
+
+```ts
+import { initializeApp } from 'firebase/app'
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
+import { callable } from 'firecaller'
+import { z } from 'zod'
+
+const app = initializeApp({ projectId: `### YOUR_PROJECT_ID` })
+const functions = getFunctions(app)
+
+connectFunctionsEmulator(functions, 'localhost', f.emulators.functions.port)
+
+const schema = {
+	req: z.string(),
+	res: z.string(),
+	name: 'hello',
+}
+
+const helloCallable = callable(schema, functions)
+
+describe('test callable', () => {
+	it('success', async () => {
+		const result = await helloCallable('hello')
+
+		expect(result.code).toBe('ok')
+		// @ts-expect-error
+		expect(result.data).toEqual('how are you?')
+	})
+
+	it('invalid arguments', async () => {
+		// @ts-expect-error
+		const result = await helloCallable(123) // wrong input type
+
+		expect(result.code).toBe('functions/invalid-argument')
+		// @ts-expect-error
+		expect(result.message).toEqual('invalid-argument')
+	})
 })
 ```
