@@ -16,7 +16,7 @@
 		"tsc": "tsc",
 		"lint": "eslint . --ext .ts --fix",
 		"pretty-quick": "pretty-quick --stage",
-		"test": "cross-env-shell \"firebase use $PROJECT_ID\" && firebase emulators:exec --only functions \"rm -rf coverage && jest --forceExit\"",
+		"test": "firebase emulators:exec --only functions \"rm -rf coverage && jest --forceExit\"",
 		"parcel": "npm un firebase && npm i firebase && rm -rf dist && tsc --emitDeclarationOnly true && parcel build && npm i -D firebase",
 		"build": "rm -rf dist && tsc",
 		"link": "npm link && npm link firelordjs",
