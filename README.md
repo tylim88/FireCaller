@@ -108,13 +108,6 @@ Usable with [Emulator](#usage-with-emulator)
 
 Read [Here](https://github.com/tylim88/FireCall#why-do-you-need-this-what-is-the-problem-firecall-trying-to-solve)
 
-## Related Projects
-
-1. [FirelordJS](https://github.com/tylim88/Firelordjs) - Typescript wrapper for Firestore Web V9
-2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
-3. [Firelordrn](https://github.com/tylim88/firelordrn) - Typescript wrapper for Firestore React Native
-4. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
-
 ## Installation
 
 ```bash
@@ -155,7 +148,7 @@ export const getUserSchema = {
 }
 ```
 
-## Create the Callable Functions
+## Create Callable Functions
 
 ```ts
 import { initializeApp } from 'firebase/app'
@@ -228,8 +221,7 @@ describe('test callable', () => {
 		const result = await helloCallable('hello')
 
 		expect(result.code).toBe('ok')
-		// @ts-expect-error
-		expect(result.data).toEqual('how are you?')
+		expect(result.data).toEqual('hello')
 	})
 
 	it('invalid arguments', async () => {
@@ -237,8 +229,14 @@ describe('test callable', () => {
 		const result = await helloCallable(123) // wrong input type
 
 		expect(result.code).toBe('functions/invalid-argument')
-		// @ts-expect-error
 		expect(result.message).toEqual('invalid-argument')
 	})
 })
 ```
+
+## Related Projects
+
+1. [FirelordJS](https://github.com/tylim88/Firelordjs) - Typescript wrapper for Firestore Web V9
+2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
+3. [Firelordrn](https://github.com/tylim88/firelordrn) - Typescript wrapper for Firestore React Native
+4. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
