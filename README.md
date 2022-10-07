@@ -236,7 +236,7 @@ describe('test callable', () => {
 
 ## Related Projects
 
-1. [FirelordJS](https://github.com/tylim88/Firelordjs) - Typescript wrapper for Firestore Web V9
-2. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin
-3. [Firelordrn](https://github.com/tylim88/firelordrn) - Typescript wrapper for Firestore React Native
-4. [FireLaw](https://github.com/tylim88/firelaw) - Write Firestore security rule with Typescript, utilizing Firelord type engine.
+1. [FirelordJS](https://github.com/tylim88/FirelordJS) - Typescript wrapper for Firestore Web.
+2. [FireSword](https://github.com/tylim88/firesword) - Filter Firestore and RTDB Unknown Keys.
+3. [Firelord](https://github.com/tylim88/Firelord) - Typescript wrapper for Firestore Admin.
+4. [FireSageJS](https://github.com/tylim88/FireSageJS) - Typescript wrapper for Realtime Database.
